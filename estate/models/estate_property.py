@@ -2,11 +2,18 @@
 from odoo import fields, models
 
 
+orientation_choices = [
+    ('north', 'North'),
+    ('south', 'South'),
+    ('east', 'East'),
+    ('west', 'West'),
+]
+
+
 class EstateProperty(models.Model):
     _name = 'estate.property'
     _description = "Estate Property"
-    _living_area = "Estate Property"
-    _postcode = "Estate Property"
+    _order = "sequence, create_date DESC"
 
     name = fields.Char(string="Title", required=True)
     description = fields.Text(string="Description")
@@ -22,8 +29,7 @@ class EstateProperty(models.Model):
     garden_area = fields.Integer(string="Garden Area")
     garden_orientation = fields.Selection(
         string="Garden Orientation",
-        selection=[('north', 'North'), ('south', 'South'),
-                   ('east', 'East'), ('west', 'West')]
+        selection=orientation_choices
     )
 
     # def _compute_post_count(self):
