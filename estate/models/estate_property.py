@@ -9,11 +9,18 @@ orientation_choices = [
     ('west', 'West'),
 ]
 
+state_choices = [
+    ('new', 'New'),
+    ('offer_received', 'Offer Received'),
+    ('offer_accepted', 'Offer Accepted'),
+    ('sold', 'Sold'),
+    ('canceled', 'Canceled'),
+]
+
 
 class EstateProperty(models.Model):
     _name = 'estate.property'
     _description = "Estate Property"
-    _order = "sequence, create_date DESC"
 
     name = fields.Char(string="Title", required=True)
     description = fields.Text(string="Description")
@@ -30,6 +37,11 @@ class EstateProperty(models.Model):
     garden_orientation = fields.Selection(
         string="Garden Orientation",
         selection=orientation_choices
+    )
+    state = fields.Selection(
+        string="State",
+        selection=state_choices,
+        default='new'
     )
 
     # def _compute_post_count(self):
