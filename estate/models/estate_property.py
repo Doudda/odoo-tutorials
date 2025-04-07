@@ -1,4 +1,5 @@
 
+from datetime import timedelta
 from odoo import fields, models
 
 
@@ -25,10 +26,11 @@ class EstateProperty(models.Model):
     name = fields.Char(string="Title", required=True)
     description = fields.Text(string="Description")
     postcode = fields.Text(string="Postcode")
-    date_availability = fields.Date(string="Date Availability")
+    date_availability = fields.Date(
+        string="Date Availability", default=fields.Date.today() + timedelta(days=90))
     expected_price = fields.Integer(string="Expected Price", required=True)
-    selling_price = fields.Integer(string="Selling Price")
-    bedrooms = fields.Integer(string="Bedrooms")
+    selling_price = fields.Integer(string="Selling Price", readonly=True)
+    bedrooms = fields.Integer(string="Bedrooms", default=2)
     living_area = fields.Integer(string="Living Area")
     facades = fields.Integer(string="Facades")
     garage = fields.Boolean(string="Garage")
@@ -43,8 +45,4 @@ class EstateProperty(models.Model):
         selection=state_choices,
         default='new'
     )
-
-    # def _compute_post_count(self):
-    #     for record in self:
-    #         record.post_count = self.env['estate.post'].search_count(
-    #             [('forum_id', '=', record.id)])
+    active = fields.Boolean(string="Active", default=True)
